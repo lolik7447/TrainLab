@@ -9,7 +9,7 @@ import database_connection
 
 
 @pytest.fixture(scope='function')
-def driver(browser_options, host_options):
+def browser(browser_options, host_options):
     if browser_options == 'ff' and host_options == 'server':
         with allure.step(f'Rune Firefox and {host_options}'):
             options = Options_ff()
