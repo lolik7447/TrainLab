@@ -89,7 +89,7 @@ def pytest_addoption(parser):
         '--host',
         action='store',
         default='localhost',
-        help='Укажите варивнт запуска тестов с хоста, по умолчанию localhost.'
+        help='Укажите вариант запуска тестов с хоста, по умолчанию localhost.'
     )
 
 
