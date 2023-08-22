@@ -1,6 +1,6 @@
 import pytest
 import allure
-import psycopg2
+import psycopg2-binary
 from sshtunnel import SSHTunnelForwarder
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as Options_chrome
@@ -89,7 +89,7 @@ def pytest_addoption(parser):
         '--host',
         action='store',
         default='localhost',
-        help='Укажите варивнт запуска тестов с хоста, по умолчанию localhost.'
+        help='Укажите вариант запуска тестов с хоста, по умолчанию localhost.'
     )
 
 
