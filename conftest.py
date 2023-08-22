@@ -1,6 +1,6 @@
 import pytest
 import allure
-import psycopg2_binary
+import psycopg2-binary
 from sshtunnel import SSHTunnelForwarder
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as Options_chrome
