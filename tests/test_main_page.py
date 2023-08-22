@@ -1,4 +1,5 @@
 import pytest
+from database_connection import database
 from pages.main_page import MainPage
 import allure
 
@@ -141,3 +142,37 @@ def test_db(connect_db):
         connect_db.execute(f"select front_id, text  from frontend_data where front_id = '{front_id}';")
         all_users = connect_db.fetchall()
         print(all_users)
+
+@allure.story('Success banner')
+@allure.title('Testing success banner')
+def test_success_banner_text_takes_from_bd(browser):  #надо менять структуру
+    with allure.step('Take text from database by front id'):
+        text_from_database = database.take_text_from_database_by_front_id(1.1)
+    with allure.step('Change text in database by front id'):
+        database.change_text_in_database_by_front_id(1.1, 'Текст изменен')
+    with allure.step('Take text from element on website'):
+        new_text_from_website = main_page.success_banner_text()
+    with allure.step('Return text to database by front id'):
+        database.change_text_in_database_by_front_id(1.1, f"{text_from_database}")
+    with allure.step('Check that text for website element takes from database'):
+        assert new_text_from_website == 'Текст изменен'
+
+@allure.story('SQL banner')
+@allure.title('Testing SQL banner')
+def test_sql_banner_is_displayed(browser):
+    with allure.step('Check that SQL banner is displayed'):
+        assert main_page.sql_banner_is_displayed()
+
+
+@allure.story('Python banner')
+@allure.title('Testing Python banner')
+def test_python_banner_is_displayed(browser):
+    with allure.step('Check that Python banner is displayed'):
+        assert main_page.python_banner_is_displayed()
+
+
+@allure.story('JavaScript banner')
+@allure.title('Testing JavaScript banner')
+def test_java_script_banner_is_displayed(browser):
+    with allure.step('Check that JavaScript banner is displayed'):
+        assert main_page.java_script_banner_is_displayed()

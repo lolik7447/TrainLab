@@ -1,6 +1,6 @@
 import psycopg2
 from sshtunnel import SSHTunnelForwarder
-from database_connection import bd
+import database_connection as bd
 
 
 def change_text_in_database_by_front_id(front_id_bd, text_to_change):
