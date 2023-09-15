@@ -21,12 +21,12 @@ jobs:
     - name: Install secret env
         env:
           bd_ip = ${{ secrets.BD_IP }} 
-          ssh_username = ${{ secrets.BD_IP }}
+          ssh_username = ${{ secrets.SSH_USERNAME }}
           ssh_port = 22
           ssh_private_key = 'C:\\Users\\PC\\.ssh\\id_ed25519'
-          host = ('')
+          host = ${{ secrets.HOST }}
           database = 'trainlab'
           username = 'trainlab'
-          password = ''
+          password = ${{ secrets.PASSWORD }}
     - name: Run tests
       run: pytest
