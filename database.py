@@ -7,18 +7,18 @@ from sshtunnel import BaseSSHTunnelForwarderError
 def change_text_in_database_by_front_id(front_id_bd, text_to_change):
     try:
         with SSHTunnelForwarder(
-                (f"{bd_ip}", 22),
-                ssh_username=f"{ssh_username}",
-                ssh_private_key=f"{ssh_private_key}",
+                (f"{BD_IP}", 22),
+                ssh_username=f"{SSH_USERNAME}",
+                ssh_private_key=f"{SSH_PRIVATE_KEY}",
                 remote_bind_address=(f"{remote_bind_address}", 25060)) as server:
 
             server.start()
 
             params = {
-                'database': f"{database}",
+                'database': f"{DATABASE}",
                 'user': f"{username}",
-                'password': f"{password}",
-                'host': f"{host}",
+                'password': f"{PASSWORD}",
+                'host': f"{HOST}",
                 'port': server.local_bind_port
             }
 
@@ -39,9 +39,9 @@ def change_text_in_database_by_front_id(front_id_bd, text_to_change):
 def take_text_from_database_by_front_id(front_id_bd):
     try:
         with SSHTunnelForwarder(
-                (f"{bd_ip}", 22),
-                ssh_username=f"{ssh_username}",
-                ssh_private_key=f"{ssh_private_key}",
+                (f"{BD_IP}", 22),
+                ssh_username=f"{SSH_USERNAME}",
+                ssh_private_key=f"{SSH_PRIVATE_KEY}",
                 remote_bind_address=(f"{remote_bind_address}", 25060)) as server:
 
             server.start()
@@ -50,7 +50,7 @@ def take_text_from_database_by_front_id(front_id_bd):
             params = {
                 'database': f"{database}",
                 'user': f"{username}",
-                'password': f"{password}",
+                'password': f"{PASSWORD}",
                 'host': f"{host}",
                 'port': server.local_bind_port
             }
