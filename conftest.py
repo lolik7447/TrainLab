@@ -11,7 +11,7 @@ import os
 @pytest.fixture(scope='function')
 def browser(browser_options, host_options):
     if browser_options == 'ff' and host_options == 'server':
-        with allure.step(f'Rune Firefox and {host_options}'):
+        with allure.step(f'Run Firefox and {host_options}'):
             options = Options_ff()
             options.add_argument("--headless")
             options.add_argument("--disable-gpu")
@@ -19,12 +19,12 @@ def browser(browser_options, host_options):
             driver_browser = webdriver.Firefox(options=options)
 
     elif browser_options == 'ff':
-        with allure.step('Rune Firefox'):
+        with allure.step('Run Firefox'):
             driver_browser = webdriver.Firefox()
             driver_browser.maximize_window()
 
     elif host_options == 'server':
-        with allure.step(f'Rune Chrome with {host_options}'):
+        with allure.step(f'Run Chrome with {host_options}'):
             options = Options_chrome()
             options.add_argument("--headless")
             options.add_argument("--disable-gpu")
@@ -32,7 +32,7 @@ def browser(browser_options, host_options):
             driver_browser = webdriver.Chrome(options=options)
 
     else:
-        with allure.step('Rune Chrome'):
+        with allure.step('Run Chrome'):
             driver_browser = webdriver.Chrome()
             driver_browser.maximize_window()
     driver_browser.implicitly_wait(10)

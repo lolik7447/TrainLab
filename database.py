@@ -1,18 +1,7 @@
 import psycopg2
 from sshtunnel import SSHTunnelForwarder
 from sshtunnel import BaseSSHTunnelForwarderError
-from decouple import config
 
-host = config('host')
-port = config('port')
-username = config('username')
-password = config('password')
-database = config('database')
-bd_ip = config('bd_ip')
-ssh_port = config('ssh_port')
-ssh_username = config('ssh_username')
-ssh_private_key = config('ssh_private_key')
-remote_bind_address = (config('host'), config('port'))
 
 
 def change_text_in_database_by_front_id(front_id_bd, text_to_change):
