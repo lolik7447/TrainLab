@@ -1,5 +1,5 @@
 import pytest
-from database_connection import database
+import database
 from pages.main_page import MainPage
 import allure
 

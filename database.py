@@ -1,23 +1,35 @@
 import psycopg2
 from sshtunnel import SSHTunnelForwarder
-import database_connection as bd
+from sshtunnel import BaseSSHTunnelForwarderError
+from decouple import config
+
+host = config('host')
+port = config('port')
+username = config('username')
+password = config('password')
+database = config('database')
+bd_ip = config('bd_ip')
+ssh_port = config('ssh_port')
+ssh_username = config('ssh_username')
+ssh_private_key = config('ssh_private_key')
+remote_bind_address = (config('host'), config('port'))
 
 
 def change_text_in_database_by_front_id(front_id_bd, text_to_change):
     try:
         with SSHTunnelForwarder(
-                (f"{bd.bd_ip}", 22),
-                ssh_username=f"{bd.ssh_username}",
-                ssh_private_key=f"{bd.ssh_private_key}",
-                remote_bind_address=(f"{bd.remote_bind_address}", 25060)) as server:
+                (f"{bd_ip}", 22),
+                ssh_username=f"{ssh_username}",
+                ssh_private_key=f"{ssh_private_key}",
+                remote_bind_address=(f"{remote_bind_address}", 25060)) as server:
 
             server.start()
 
             params = {
-                'database': f"{bd.database}",
-                'user': f"{bd.user}",
-                'password': f"{bd.password}",
-                'host': f"{bd.host}",
+                'database': f"{database}",
+                'user': f"{username}",
+                'password': f"{password}",
+                'host': f"{host}",
                 'port': server.local_bind_port
             }
 
@@ -29,26 +41,28 @@ def change_text_in_database_by_front_id(front_id_bd, text_to_change):
             conn.close()
             return True
 
-    except:
-        print("Connection Failed")
+
+    except psycopg2.Error as e: print("PostgreSQL error:", e)
+    except BaseSSHTunnelForwarderError as e: print("SSH tunnel error:", e)
+    except Exception as e: print("An unexpected error occurred:", e)
 
 
 def take_text_from_database_by_front_id(front_id_bd):
     try:
         with SSHTunnelForwarder(
-                (f"{bd.bd_ip}", 22),
-                ssh_username=f"{bd.ssh_username}",
-                ssh_private_key=f"{bd.ssh_private_key}",
-                remote_bind_address=(f"{bd.remote_bind_address}", 25060)) as server:
+                (f"{bd_ip}", 22),
+                ssh_username=f"{ssh_username}",
+                ssh_private_key=f"{ssh_private_key}",
+                remote_bind_address=(f"{remote_bind_address}", 25060)) as server:
 
             server.start()
             print('Server connected via SSH')
 
             params = {
-                'database': f"{bd.database}",
-                'user': f"{bd.user}",
-                'password': f"{bd.password}",
-                'host': f"{bd.host}",
+                'database': f"{database}",
+                'user': f"{username}",
+                'password': f"{password}",
+                'host': f"{host}",
                 'port': server.local_bind_port
             }
 

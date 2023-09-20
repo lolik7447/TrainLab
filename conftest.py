@@ -5,7 +5,7 @@ from sshtunnel import SSHTunnelForwarder
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as Options_chrome
 from selenium.webdriver.firefox.options import Options as Options_ff
-import database_connection
+import os
 
 
 @pytest.fixture(scope='function')
@@ -45,11 +45,11 @@ def connect_db(host_options):
     if host_options == 'server':
         with allure.step(f'Run a database connection from {host_options}'):
             con = psycopg2.connect(
-                host=database_connection.host,
-                port=database_connection.port,
-                user=database_connection.username,
-                password=database_connection.password,
-                database=database_connection.database
+                host=os.environ["host"],
+                port=os.environ["port"],
+                username=os.environ["username"],
+                password=os.environ["password"],
+                database=os.environ["database"]
             )
             curs = con.cursor()
             yield curs
@@ -58,19 +58,19 @@ def connect_db(host_options):
     else:
         with allure.step(f'Run a database connection from {host_options}'):
             with SSHTunnelForwarder(
-                    (database_connection.bd_ip, database_connection.ssh_port),
-                    ssh_username=database_connection.ssh_username,
-                    ssh_private_key=database_connection.ssh_private_key,
+                    (os.environ["bd_ip"], os.environ["ssh_port"]),
+                    ssh_username=os.environ["ssh_username"],
+                    ssh_private_key=os.environ["ssh_private_key"],
                     remote_bind_address=(
-                            database_connection.host,
-                            database_connection.port)) as server:
+                            os.environ["host"],
+                            os.environ["port"])) as server:
                 server.start()
                 con = psycopg2.connect(
                     host='localhost',
                     port=server.local_bind_port,
-                    user=database_connection.username,
-                    password=database_connection.password,
-                    database=database_connection.database
+                    username=os.environ["username"],
+                    password=os.environ["password"],
+                    database=os.environ["database"]
                 )
                 curs = con.cursor()
                 yield curs
