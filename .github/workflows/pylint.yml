@@ -18,15 +18,5 @@ jobs:
       run: sudo apt-get install google-chrome-stable
     - name: Install dependencies
       run: pip install -r requirements.txt
-    - name: Install secret env
-        env:
-          bd_ip = ${{ secrets.BD_IP }} 
-          ssh_username = ${{ secrets.SSH_USERNAME }}
-          ssh_port = 22
-          ssh_private_key = 'C:\\Users\\PC\\.ssh\\id_ed25519'
-          host = ${{ secrets.HOST }}
-          database = 'trainlab'
-          username = 'trainlab'
-          password = ${{ secrets.PASSWORD }}
     - name: Run tests
       run: pytest
