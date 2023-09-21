@@ -1,10 +1,5 @@
-<div align="center">
-  <a name="readme-top"></a>
-  # [![GitHub Actions pylint](https://github.com/lolik7447/TrainLab/actions/workflows/pylint.yml/badge.svg)]
-</div>
-
-
-
+<a name="readme-top"></a>
+# [![GitHub Actions pylint](https://github.com/lolik7447/TrainLab/actions/workflows/pylint.yml/badge.svg)]
 
 <div id="image" align="center">
   <img src="https://github.com/lolik7447/lolik7447/blob/main/Olga3.png" height="200"/></h1>
