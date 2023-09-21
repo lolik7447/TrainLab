@@ -1,7 +1,7 @@
 <a name="readme-top"></a>
 # [![GitHub Actions pylint](https://github.com/lolik7447/TrainLab/actions/workflows/pylint.yml/badge.svg)]
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
+
+
 
 
 <div id="image" align="center">
