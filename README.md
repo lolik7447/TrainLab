@@ -1,5 +1,7 @@
-<a name="readme-top"></a>
-# [![GitHub Actions pylint](https://github.com/lolik7447/TrainLab/actions/workflows/pylint.yml/badge.svg)]
+<div align="center">
+  <a name="readme-top"></a>
+  # [![GitHub Actions pylint](https://github.com/lolik7447/TrainLab/actions/workflows/pylint.yml/badge.svg)]
+</div>
 
 
 
