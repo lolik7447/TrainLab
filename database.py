@@ -1,76 +1,84 @@
 import psycopg2
 from sshtunnel import SSHTunnelForwarder
 from sshtunnel import BaseSSHTunnelForwarderError
+from decouple import config
 
+host = config('HOST')
+user = config('USER')
+password = config('PASSWORD')
+database = config('DATABASE')
+bd_ip = config('BD_IP')
+ssh_port = int(config('SSH_PORT'))
+ssh_username = config('SSH_USERNAME')
+ssh_private_key = config('SSH_PRIVATE_KEY')
+remote_bind_address = (config('HOST'), int(config('PORT')))
+port = int(config('PORT'))
+
+def get_text_from_database_by_front_id(front_id_bd):
+    try:
+        with SSHTunnelForwarder(
+                (bd_ip, 22),
+                ssh_username=ssh_username,
+                ssh_private_key=ssh_private_key,
+                remote_bind_address=remote_bind_address) as server:
+
+            server.start()
+
+            params = {
+                'database': database,
+                'user': user,
+                'password': password,
+                'host': host,
+                'port': server.local_bind_port
+            }
+
+            conn = psycopg2.connect(**params)
+            curs = conn.cursor()
+            curs.execute(f"SELECT text FROM frontend_data WHERE front_id='{front_id_bd}';")
+            conn.commit()
+            text = curs.fetchall()[0][0]
+            conn.close()
+            return text
+
+    except Exception as e:
+        print("An error occurred:", e)
 
 
 def change_text_in_database_by_front_id(front_id_bd, text_to_change):
     try:
         with SSHTunnelForwarder(
-                (f"{bd_ip}", 22),
-                ssh_username=f"{ssh_username}",
-                ssh_private_key=f"{ssh_private_key}",
-                remote_bind_address=(f"{remote_bind_address}", 25060)) as server:
+                (bd_ip, 22),
+                ssh_username=ssh_username,
+                ssh_private_key=ssh_private_key,
+                remote_bind_address=remote_bind_address) as server:
 
             server.start()
 
             params = {
-                'database': f"{database}",
-                'user': f"{username}",
-                'password': f"{password}",
-                'host': f"{host}",
+                'database': database,
+                'user': user,
+                'password': password,
+                'host': host,
                 'port': server.local_bind_port
             }
 
             conn = psycopg2.connect(**params)
             curs = conn.cursor()
-            curs.execute(f"update frontend_data SET text='{text_to_change}'"
-                         f" WHERE front_id='{front_id_bd}';")
+            curs.execute(f"UPDATE frontend_data SET text='{text_to_change}' WHERE front_id='{front_id_bd}';")
             conn.commit()
             conn.close()
             return True
 
+    except psycopg2.Error as e:
+        print("PostgreSQL error:", e)
+    except BaseSSHTunnelForwarderError as e:
+        print("SSH tunnel error:", e)
+    except Exception as e:
+        print("An unexpected error occurred:", e)
 
-    except psycopg2.Error as e: print("PostgreSQL error:", e)
-    except BaseSSHTunnelForwarderError as e: print("SSH tunnel error:", e)
-    except Exception as e: print("An unexpected error occurred:", e)
+# Пример использования:
+# Получаем текст по front_id
+text_to_change = get_text_from_database_by_front_id("1.1")
 
-
-def take_text_from_database_by_front_id(front_id_bd):
-    try:
-        with SSHTunnelForwarder(
-                (f"{bd_ip}", 22),
-                ssh_username=f"{ssh_username}",
-                ssh_private_key=f"{ssh_private_key}",
-                remote_bind_address=(f"{remote_bind_address}", 25060)) as server:
-
-            server.start()
-            print('Server connected via SSH')
-
-            params = {
-                'database': f"{database}",
-                'user': f"{username}",
-                'password': f"{password}",
-                'host': f"{host}",
-                'port': server.local_bind_port
-            }
-
-            conn = psycopg2.connect(**params)
-            curs = conn.cursor()
-            curs.execute(f"SELECT text FROM frontend_data WHERE front_id='{front_id}';")
-            conn.commit()
-            first_text = curs.fetchall()[0][0]
-            print(first_text)
-            curs.execute(f"update frontend_data SET text='{text}' WHERE front_id='{front_id}';")
-            conn.commit()
-            curs.execute("SELECT text FROM frontend_data WHERE front_id='1.1';")
-            conn.commit()
-            second_text = curs.fetchall()[0][0]
-            print(second_text)
-            curs.execute(f"update frontend_data SET text='{first_text}' WHERE front_id='{front_id}';")
-            conn.commit()
-            conn.close()
-            return second_text
-
-    except:
-        print("Connection Failed")
+# Изменяем текст в базе данных
+change_text_in_database_by_front_id("1.1", "Новый текст")

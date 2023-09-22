@@ -16,6 +16,7 @@ class MainPageLocators:
     #button[data-original-title="Войти"] + div.tooltip > div.tooltip-inner
     tooltip_ask_us = (By.CSS_SELECTOR, "#root div:nth-child(3) > div > div > div:nth-child(5) > a")
     #button[data-original-title="Задай нам вопрос"] + div.tooltip > div.tooltip-inner
+    success_banner_bar = (By.CLASS_NAME, 'Banner_h3_banner__BaCln')
 
 class AuthPageLocators:
     email_input = (By.NAME, 'Registration_input__fHjpg')

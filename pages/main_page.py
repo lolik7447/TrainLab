@@ -68,5 +68,9 @@ class MainPage(BasePage):
         actions.move_to_element(*MainPageLocators.tooltip_ask_us).perform()
         return self.find_element(*MainPageLocators.tooltip_ask_us)
 
+    def success_banner_text(self):
+        self.wait_element(MainPageLocators.success_banner_bar)
+        return self.find_element(MainPageLocators.success_banner_bar).text
+
 
 

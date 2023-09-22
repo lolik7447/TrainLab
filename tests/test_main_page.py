@@ -143,19 +143,29 @@ def test_db(connect_db):
         all_users = connect_db.fetchall()
         print(all_users)
 
-@allure.story('Success banner')
-@allure.title('Testing success banner')
-def test_success_banner_text_takes_from_bd(browser):  #надо менять структуру
+
+def test_success_banner_text(browser):
     with allure.step('Take text from database by front id'):
-        text_from_database = database.take_text_from_database_by_front_id(1.1)
+        front_id = "1.1"  # Измените front_id на строку, так как функция ожидает строковый аргумент
+        text_from_database = database.get_text_from_database_by_front_id(front_id)
+
     with allure.step('Change text in database by front id'):
-        database.change_text_in_database_by_front_id(1.1, 'Текст изменен')
+        modified_text = 'Текст изменен'
+        database.change_text_in_database_by_front_id(front_id, modified_text)
+
     with allure.step('Take text from element on website'):
         new_text_from_website = main_page.success_banner_text()
-    with allure.step('Return text to database by front id'):
-        database.change_text_in_database_by_front_id(1.1, f"{text_from_database}")
-    with allure.step('Check that text for website element takes from database'):
-        assert new_text_from_website == 'Текст изменен'
+
+    with allure.step('Check that text on the website matches the modified text'):
+        assert new_text_from_website == modified_text
+
+    with allure.step('Restore original text in database by front id'):
+        database.change_text_in_database_by_front_id(front_id, text_from_database)
+
+    with allure.step('Verify that the database text is restored'):
+        restored_text = database.get_text_from_database_by_front_id(front_id)
+        assert restored_text == text_from_database
+
 
 @allure.story('SQL banner')
 @allure.title('Testing SQL banner')

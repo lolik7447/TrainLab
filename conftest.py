@@ -5,7 +5,19 @@ from sshtunnel import SSHTunnelForwarder
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as Options_chrome
 from selenium.webdriver.firefox.options import Options as Options_ff
-import os
+from decouple import config
+
+host = config('HOST')
+user = config('USER')
+password = config('PASSWORD')
+database = config('DATABASE')
+bd_ip = config('BD_IP')
+ssh_port = int(config('SSH_PORT'))
+ssh_username = config('SSH_USERNAME')
+ssh_private_key = config('SSH_PRIVATE_KEY')
+remote_bind_address = (config('HOST'), int(config('PORT')))
+port = int(config('PORT'))
+
 
 
 @pytest.fixture(scope='function')
@@ -45,11 +57,11 @@ def connect_db(host_options):
     if host_options == 'server':
         with allure.step(f'Run a database connection from {host_options}'):
             con = psycopg2.connect(
-                host=os.environ["host"],
-                port=os.environ["port"],
-                username=os.environ["username"],
-                password=os.environ["password"],
-                database=os.environ["database"]
+                host,
+                port,
+                user,
+                password,
+                database
             )
             curs = con.cursor()
             yield curs
@@ -58,19 +70,18 @@ def connect_db(host_options):
     else:
         with allure.step(f'Run a database connection from {host_options}'):
             with SSHTunnelForwarder(
-                    (os.environ["bd_ip"], os.environ["ssh_port"]),
-                    ssh_username=os.environ["ssh_username"],
-                    ssh_private_key=os.environ["ssh_private_key"],
-                    remote_bind_address=(
-                            os.environ["host"],
-                            os.environ["port"])) as server:
+                    (bd_ip, ssh_port),
+                    ssh_username=ssh_username,
+                    ssh_pkey=ssh_private_key,
+                    remote_bind_address=remote_bind_address
+            ) as server:
                 server.start()
                 con = psycopg2.connect(
                     host='localhost',
                     port=server.local_bind_port,
-                    username=os.environ["username"],
-                    password=os.environ["password"],
-                    database=os.environ["database"]
+                    user=user,
+                    password=password,
+                    dbname=database
                 )
                 curs = con.cursor()
                 yield curs
