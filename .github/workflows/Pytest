@@ -36,5 +36,5 @@ jobs:
     - name: Run tests
       run: |
         # Запуск ваших тестов с pytest и указанием пути к файлам тестов
-        pytest path/to/your/tests
+        pytest
 
