@@ -83,7 +83,7 @@ def pytest_addoption(parser):
         '--browser',
         action='store',
         default='chrome',
-        help='Укажите значение браузера, поумолчанию Chrome'
+        help='Укажите значение браузера, по умолчанию Chrome'
     )
     parser.addoption(
         '--host',
