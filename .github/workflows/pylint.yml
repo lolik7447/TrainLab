@@ -15,7 +15,12 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install Chrome
-      run: sudo apt-get install google-chrome-stable
+      run: |
+        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        sudo dpkg -i google-chrome-stable_current_amd64.deb
+        sudo apt-get install -f
+    - name: Check Chrome installation
+      run: google-chrome-stable --version
     - name: Install dependencies
       run: pip install -r requirements.txt
     - name: Run tests
