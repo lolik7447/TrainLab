@@ -32,8 +32,11 @@ def browser(browser_options, host_options):
 
     elif browser_options == 'ff':
         with allure.step('Run Firefox'):
-            driver_browser = webdriver.Firefox()
-            driver_browser.maximize_window()
+            options = Options_ff()
+            options.add_argument("--headless")
+            options.add_argument("--disable-gpu")
+            options.add_argument("--window-size=1920x1080")
+            driver_browser = webdriver.Firefox(options=options)
 
     elif host_options == 'server':
         with allure.step(f'Run Chrome with {host_options}'):
@@ -45,8 +48,11 @@ def browser(browser_options, host_options):
 
     else:
         with allure.step('Run Chrome'):
-            driver_browser = webdriver.Chrome()
-            driver_browser.maximize_window()
+            options = Options_chrome()
+            options.add_argument("--headless")
+            options.add_argument("--disable-gpu")
+            options.add_argument("--window-size=1920x1080")
+            driver_browser = webdriver.Chrome(options=options)
     driver_browser.implicitly_wait(10)
     yield driver_browser
     driver_browser.quit()
@@ -94,7 +100,7 @@ def pytest_addoption(parser):
         '--browser',
         action='store',
         default='chrome',
-        help='Укажите значение браузера, поумолчанию Chrome'
+        help='Укажите значение браузера, по умолчанию Chrome'
     )
     parser.addoption(
         '--host',
