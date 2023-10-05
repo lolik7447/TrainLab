@@ -71,13 +71,5 @@ class MainPage(BasePage):
 
     def success_banner_text(self):
         self.wait_element(MainPageLocators.success_banner_bar)
-        return self.find_element(MainPageLocators.success_banner_bar).text
+        return self.find_element(*MainPageLocators.success_banner_bar).text
 
-    def sql_banner_is_displayed(self):
-        return self.wait_element(MainPageLocators.sql_banner)
-
-    def python_banner_is_displayed(self):
-        return self.wait_element(MainPageLocators.python_banner)
-
-    def java_script_banner_is_displayed(self):
-        return self.wait_element(MainPageLocators.java_script_banner)

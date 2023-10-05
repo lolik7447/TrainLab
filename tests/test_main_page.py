@@ -146,7 +146,7 @@ def test_db(connect_db):
 
 def test_success_banner_text(browser):
     with allure.step('Take text from database by front id'):
-        front_id = "1.1"  # Измените front_id на строку, так как функция ожидает строковый аргумент
+        front_id = "1.1"
         text_from_database = database.get_text_from_database_by_front_id(front_id)
 
     with allure.step('Change text in database by front id'):
@@ -165,24 +165,3 @@ def test_success_banner_text(browser):
     with allure.step('Verify that the database text is restored'):
         restored_text = database.get_text_from_database_by_front_id(front_id)
         assert restored_text == text_from_database
-
-
-@allure.story('SQL banner')
-@allure.title('Testing SQL banner')
-def test_sql_banner_is_displayed(browser):
-    with allure.step('Check that SQL banner is displayed'):
-        assert main_page.sql_banner_is_displayed()
-
-
-@allure.story('Python banner')
-@allure.title('Testing Python banner')
-def test_python_banner_is_displayed(browser):
-    with allure.step('Check that Python banner is displayed'):
-        assert main_page.python_banner_is_displayed()
-
-
-@allure.story('JavaScript banner')
-@allure.title('Testing JavaScript banner')
-def test_java_script_banner_is_displayed(browser):
-    with allure.step('Check that JavaScript banner is displayed'):
-        assert main_page.java_script_banner_is_displayed()

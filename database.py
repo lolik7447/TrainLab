@@ -14,6 +14,7 @@ ssh_private_key = config('SSH_PRIVATE_KEY')
 remote_bind_address = (config('HOST'), int(config('PORT')))
 port = int(config('PORT'))
 
+
 def get_text_from_database_by_front_id(front_id_bd):
     try:
         with SSHTunnelForwarder(
@@ -75,6 +76,7 @@ def change_text_in_database_by_front_id(front_id_bd, text_to_change):
         print("SSH tunnel error:", e)
     except Exception as e:
         print("An unexpected error occurred:", e)
+
 
 # Пример использования:
 # Получаем текст по front_id
