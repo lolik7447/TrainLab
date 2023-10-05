@@ -5,7 +5,7 @@ from sshtunnel import SSHTunnelForwarder
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as Options_chrome
 from selenium.webdriver.firefox.options import Options as Options_ff
-from decouple import config
+import config
 
 host = config('HOST')
 user = config('USER')
