@@ -1,18 +1,18 @@
 import psycopg2
 from sshtunnel import SSHTunnelForwarder
 from sshtunnel import BaseSSHTunnelForwarderError
-from decouple import config
+import os
 
-host = config('HOST')
-user = config('USER')
-password = config('PASSWORD')
-database = config('DATABASE')
-bd_ip = config('BD_IP')
-ssh_port = int(config('SSH_PORT'))
-ssh_username = config('SSH_USERNAME')
-ssh_private_key = config('SSH_PRIVATE_KEY')
-remote_bind_address = (config('HOST'), int(config('PORT')))
-port = int(config('PORT'))
+host = os.environ['HOST']
+user = os.environ['USER']
+password = os.environ['PASSWORD']
+database = os.environ['DATABASE']
+bd_ip = os.environ['BD_IP']
+ssh_port = int(os.environ['SSH_PORT'])
+ssh_username = os.environ['SSH_USERNAME']
+ssh_private_key = os.environ['SSH_PRIVATE_KEY']
+remote_bind_address = (os.environ['HOST'], int(os.environ['PORT']))
+port = int(os.environ['PORT'])
 
 
 def get_text_from_database_by_front_id(front_id_bd):
