@@ -21,4 +21,14 @@ jobs:
     - name: Install dependencies
       run: pip install -r requirements.txt
     - name: Run tests
+      env:
+        BD_IP: ${{ secrets.BD_IP }}
+        DATABASE: ${{ secrets.DATABASE }}
+        HOST: ${{ secrets.HOST }}
+        PASSWORD: ${{ secrets.PASSWORD }}
+        PORT: ${{ secrets.PORT }}
+        SSH_PORT: ${{ secrets.SSH_PORT }}
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+        USERNAME: ${{ secrets.USERNAME }}
       run: pytest
