@@ -1,5 +1,4 @@
-<a name="readme-top"></a>
-# [![GitHub Actions pytest](https://github.com/lolik7447/TrainLab/actions/workflows/pytest.yml/badge.svg)]
+<a name="readme-top">![GitHub Actions pytest](https://github.com/lolik7447/TrainLab/actions/workflows/github-code-scanning/codeql/badge.svg)</a>
 
 <div id="image" align="center">
   <img src="https://github.com/lolik7447/lolik7447/blob/main/Olga3.png" height="200"/></h1>
