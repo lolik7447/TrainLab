@@ -95,13 +95,13 @@ def pytest_addoption(parser):
         '--browser',
         action='store',
         default='chrome',
-        help='Укажите значение браузера, по умолчанию Chrome'
+        help='Укажите значение браузера, по-умолчанию Chrome'
     )
     parser.addoption(
         '--host',
         action='store',
         default='localhost',
-        help='Укажите вариант запуска тестов с хоста, по умолчанию localhost.'
+        help='Укажите вариант запуска тестов с хоста, по умолчанию - localhost.'
     )
 
 

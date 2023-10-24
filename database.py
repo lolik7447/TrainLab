@@ -11,8 +11,8 @@ bd_ip = config('BD_IP')
 port = int(config('PORT'))
 remote_bind_address = (host, port)
 # ssh_port = 22
-# ssh_username = os.environ['SSH_USERNAME']
-# ssh_private_key = os.environ['SSH_PRIVATE_KEY']
+# ssh_username = config('SSH_USERNAME')
+# ssh_private_key = config('SSH_PRIVATE_KEY')
 
 
 
