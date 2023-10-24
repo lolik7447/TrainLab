@@ -8,29 +8,30 @@ user = config('USER')
 password = config('PASSWORD')
 database = config('DATABASE')
 bd_ip = config('BD_IP')
-ssh_port = int(config('SSH_PORT'))
-ssh_username = config('SSH_USERNAME')
-ssh_private_key = config('SSH_PRIVATE_KEY')
-remote_bind_address = (config('HOST'), int(config('PORT')))
 port = int(config('PORT'))
+remote_bind_address = (host, port)
+# ssh_port = 22
+# ssh_username = os.environ['SSH_USERNAME']
+# ssh_private_key = os.environ['SSH_PRIVATE_KEY']
+
 
 
 def get_text_from_database_by_front_id(front_id_bd):
     try:
-        with SSHTunnelForwarder(
-                (bd_ip, 22),
-                ssh_username=ssh_username,
-                ssh_private_key=ssh_private_key,
-                remote_bind_address=remote_bind_address) as server:
-
-            server.start()
+        # with SSHTunnelForwarder(
+        #         (bd_ip, 22),
+        #         ssh_username=ssh_username,
+        #         ssh_private_key=ssh_private_key,
+        #         remote_bind_address=remote_bind_address) as server:
+        #
+        #     server.start()
 
             params = {
                 'database': database,
                 'user': user,
                 'password': password,
                 'host': host,
-                'port': server.local_bind_port
+                'port': port
             }
 
             conn = psycopg2.connect(**params)
@@ -47,20 +48,19 @@ def get_text_from_database_by_front_id(front_id_bd):
 
 def change_text_in_database_by_front_id(front_id_bd, text_to_change):
     try:
-        with SSHTunnelForwarder(
-                (bd_ip, 22),
-                ssh_username=ssh_username,
-                ssh_private_key=ssh_private_key,
-                remote_bind_address=remote_bind_address) as server:
-
-            server.start()
-
+        # with SSHTunnelForwarder(
+        #         (bd_ip, 22),
+        #         ssh_username=ssh_username,
+        #         ssh_private_key=ssh_private_key,
+        #         remote_bind_address=remote_bind_address) as server:
+        #
+        #     server.start()
             params = {
                 'database': database,
                 'user': user,
                 'password': password,
                 'host': host,
-                'port': server.local_bind_port
+                'port': port
             }
 
             conn = psycopg2.connect(**params)
@@ -78,9 +78,7 @@ def change_text_in_database_by_front_id(front_id_bd, text_to_change):
         print("An unexpected error occurred:", e)
 
 
-# Пример использования:
 # Получаем текст по front_id
 text_to_change = get_text_from_database_by_front_id("1.1")
-
 # Изменяем текст в базе данных
 change_text_in_database_by_front_id("1.1", "Новый текст")

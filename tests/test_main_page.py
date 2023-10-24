@@ -150,7 +150,7 @@ def test_success_banner_text(browser):
         text_from_database = database.get_text_from_database_by_front_id(front_id)
 
     with allure.step('Change text in database by front id'):
-        modified_text = 'Текст изменен'
+        modified_text = 'Создай свой успех'
         database.change_text_in_database_by_front_id(front_id, modified_text)
 
     with allure.step('Take text from element on website'):

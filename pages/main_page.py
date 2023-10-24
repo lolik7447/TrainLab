@@ -71,5 +71,9 @@ class MainPage(BasePage):
 
     def success_banner_text(self):
         self.wait_element(MainPageLocators.success_banner_bar)
-        return self.find_element(*MainPageLocators.success_banner_bar).text
+        print("Element found on the page")
+        element = self.find_element(*MainPageLocators.success_banner_bar)
+        print(f"Element text: {element.text}")
+        return element.text
+
 
